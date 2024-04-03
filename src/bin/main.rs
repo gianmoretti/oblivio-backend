@@ -1,6 +1,6 @@
 use loco_rs::cli;
-use oblivio_loco_be::app::App;
 use migration::Migrator;
+use oblivio_loco_be::app::App;
 
 #[tokio::main]
 async fn main() -> eyre::Result<()> {

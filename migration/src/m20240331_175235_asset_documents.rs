@@ -44,9 +44,7 @@ enum AssetDocuments {
     Filename,
     Url,
     AssetId,
-    
 }
-
 
 #[derive(DeriveIden)]
 enum Assets {

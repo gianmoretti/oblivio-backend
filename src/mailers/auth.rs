@@ -1,6 +1,5 @@
 // auth mailer
 #![allow(non_upper_case_globals)]
-#[warn(unused_variables)]
 use loco_rs::prelude::*;
 use serde_json::json;
 
@@ -37,7 +36,6 @@ impl AuthMailer {
                   "verifyToken": user.email_verification_token,
                   "domain": ctx.config.server.full_url()
                 }),
-                ..Default::default()
             },
         )
         .await?;

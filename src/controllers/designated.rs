@@ -26,7 +26,7 @@ impl Params {
         item.email = Set(self.email.clone());
         item.first_name = Set(self.first_name.clone());
         item.last_name = Set(self.last_name.clone());
-        item.birth_date = Set(self.birth_date.clone());
+        item.birth_date = Set(self.birth_date);
         item.birth_place = Set(self.birth_place.clone());
         item.residence = Set(self.residence.clone());
         item.phone_number = Set(self.phone_number.clone());

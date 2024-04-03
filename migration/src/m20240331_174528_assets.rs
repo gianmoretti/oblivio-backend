@@ -32,7 +32,4 @@ enum Assets {
     Name,
     Description,
     Category,
-    
 }
-
-

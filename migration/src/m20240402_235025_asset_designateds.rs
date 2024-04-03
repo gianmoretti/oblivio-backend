@@ -46,9 +46,7 @@ enum AssetDesignateds {
     Id,
     AssetId,
     DesignatedId,
-    
 }
-
 
 #[derive(DeriveIden)]
 enum Assets {

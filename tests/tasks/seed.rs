@@ -16,8 +16,8 @@
 use std::collections::BTreeMap;
 
 use loco_rs::{db, prelude::*};
-use oblivio_loco_be::app::App;
 use migration::Migrator;
+use oblivio_loco_be::app::App;
 
 #[allow(clippy::module_name_repetitions)]
 pub struct SeedData;

@@ -1,5 +1,5 @@
-use oblivio_loco_be::app::App;
 use loco_rs::testing;
+use oblivio_loco_be::app::App;
 use serial_test::serial;
 
 macro_rules! configure_insta {

@@ -46,7 +46,4 @@ enum Designateds {
     FiscalCode,
     Color,
     ImageUrl,
-    
 }
-
-

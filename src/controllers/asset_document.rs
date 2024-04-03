@@ -12,15 +12,15 @@ pub struct Params {
     pub name: String,
     pub filename: String,
     pub url: Option<String>,
-    }
+}
 
 impl Params {
     fn update(&self, item: &mut ActiveModel) {
-      item.mime_type = Set(self.mime_type.clone());
-      item.name = Set(self.name.clone());
-      item.filename = Set(self.filename.clone());
-      item.url = Set(self.url.clone());
-      }
+        item.mime_type = Set(self.mime_type.clone());
+        item.name = Set(self.name.clone());
+        item.filename = Set(self.filename.clone());
+        item.url = Set(self.url.clone());
+    }
 }
 
 async fn load_item(ctx: &AppContext, id: i32) -> Result<Model> {
