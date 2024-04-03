@@ -71,7 +71,7 @@ curl --location '127.0.0.1:3000/api/auth/register' \
      --data-raw '{
          "first_name": "Gianluca",
          "last_name": "Moretti",
-         "email": "gianmoretti@loco.rs",
+         "email": "gianmoretti@gmail.com",
          "password": "12341234"
      }'
 ```
@@ -178,4 +178,21 @@ $ cargo loco generate scaffold asset name:string! description:text! category:str
 $ cargo loco generate scaffold asset_document mime_type:string! name:string! filename:string! url:string asset:references
 
 $ cargo loco generate scaffold asset_designated asset:references designated:references
+```
+
+### Docker
+
+```
+docker build -f ./dockerfile -t demo-rust .
+
+docker network create demo-rust-network
+
+docker run -d -p 5432:5432 --network=demo-rust-network -e POSTGRES_USER=loco -e POSTGRES_DB=oblivio_loco_be_development -e POSTGRES_PASSWORD="loco" postgres:15.3-alpine
+
+docker run -p 6379:6379 -d --network=demo-rust-network redis redis-server
+
+docker run -d -p 3000:3000 --network=demo-rust-network demo-rust start
+
+-- per estrarre gli ip di redis e postgres da infilare nelle configurazioni di deploy
+docker inspect <container id> | grep -i "IPaDDreSS"
 ```
