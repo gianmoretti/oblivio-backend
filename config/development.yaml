@@ -81,7 +81,7 @@ mailer:
     secure: true
     auth:
       user: gianmoretti@gmail.com
-      password: zyikevtgcbfopwwd
+      password: zyikev....
 
 
 # Initializers Configuration
