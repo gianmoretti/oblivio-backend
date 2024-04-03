@@ -1,0 +1,8 @@
+---
+source: tests/requests/user.rs
+expression: "(response.status_code(), response.text())"
+---
+(
+    200,
+    "{\"pid\":\"PID\",\"first_name\":\"first name loco\",\"last_name\":\"last name loco\",\"email\":\"test@loco.com\"}",
+)
