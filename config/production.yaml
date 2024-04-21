@@ -40,7 +40,7 @@ mailer:
     secure: true
     auth:
       user: gianmoretti@gmail.com
-      password: zyikevtgcbfopwwd
+      password: zyikevt...
 database:
   uri: {{ get_env(name="DATABASE_URL", default="postgres://default:UI7GDx0XCtJq@ep-sparkling-shadow-a45jhttd-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require&currentSchema=public") }}
   enable_logging: false
