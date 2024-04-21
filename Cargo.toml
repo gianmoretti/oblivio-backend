@@ -8,6 +8,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+shuttle-axum = "0.43.0"
+shuttle-runtime = { version = "0.43.0", default-features = false }
+shuttle-shared-db = { version = "0.43.0", features = ["postgres"] }
+
 
 loco-rs = { version = "0.3.2" }
 migration = { path = "migration" }
@@ -27,15 +31,20 @@ sea-orm = { version = "1.0.0-rc.1", features = [
   "macros",
 ] }
 
-axum = "0.7.1"
+axum = "0.7.3"
 include_dir = "0.7"
 uuid = { version = "1.6.0", features = ["v4"] }
 tracing-subscriber = { version = "0.3.17", features = ["env-filter", "json"] }
+shuttle-service = "=0.38.0"
 
 [[bin]]
 name = "oblivio_loco_be-cli"
 path = "src/bin/main.rs"
 required-features = []
+
+[[bin]]
+name = "oblivio_loco_be"
+path = "src/bin/shuttle.rs"
 
 [dev-dependencies]
 serial_test = "2.0.0"

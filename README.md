@@ -196,3 +196,14 @@ docker run -d -p 3000:3000 --network=demo-rust-network demo-rust start
 -- per estrarre gli ip di redis e postgres da infilare nelle configurazioni di deploy
 docker inspect <container id> | grep -i "IPaDDreSS"
 ```
+
+# Deploy on shuttle
+
+```
+$ cargo shuttle run (per local development)
+$ cargo check
+$ cargo build
+$ cargo shuttle project start
+$ cargo shuttle project status
+$ cargo shuttle deploy --allow-dirty --no-test
+```

@@ -1,0 +1,62 @@
+logger:
+  enable: true
+  pretty_backtrace: true
+  level: debug
+  format: compact
+server:
+  port: 3001
+  host: http://localhost
+  middlewares:
+    etag:
+      enable: true
+    limit_payload:
+      enable: true
+      body_limit: 5mb
+    logger:
+      enable: true
+    catch_panic:
+      enable: true
+    timeout_request:
+      enable: false
+      timeout: 5000
+    cors:
+      enable: true
+      allow_origins:
+        - https://loco.rs
+      allow_headers:
+        - Content-Type
+      allow_methods:
+        - POST
+      max_age: 3600
+
+workers:
+  mode: BackgroundQueue
+
+mailer:
+  smtp:
+    enable: true
+    host: {{ get_env(name="MAILER_HOST", default="smtp.gmail.com") }}
+    port: 587
+    secure: true
+    auth:
+      user: gianmoretti@gmail.com
+      password: zyikevtgcbfopwwd
+database:
+  uri: {{ get_env(name="DATABASE_URL", default="postgres://default:UI7GDx0XCtJq@ep-sparkling-shadow-a45jhttd-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require&currentSchema=public") }}
+  enable_logging: false
+  connect_timeout: 5000
+  idle_timeout: 5000
+  min_connections: 1
+  max_connections: 1
+  auto_migrate: true
+  dangerously_truncate: false
+  dangerously_recreate: false
+
+redis:
+  uri: {{ get_env(name="REDIS_URL", default="redis://192.168.160.4") }}
+  dangerously_flush: false
+
+auth:
+  jwt:
+    secret: 5cZEwXMoEFVXkiuh46cQ
+    expiration: 604800 # 7 days

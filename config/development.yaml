@@ -17,7 +17,7 @@ logger:
 # Web server configuration
 server:
   # Port on which the server will listen. the server binding is 0.0.0.0:{PORT}
-  port: 3000
+  port: 3001
   # The UI hostname or IP address that mailers will point to.
   host: http://localhost
   # Out of the box middleware configuration. to disable middleware you can changed the `enable` field to `false` of comment the middleware block
@@ -81,7 +81,7 @@ mailer:
     secure: true
     auth:
       user: gianmoretti@gmail.com
-      password: zyikev....
+      password: zyikevtgcbfopwwd
 
 
 # Initializers Configuration
@@ -94,13 +94,14 @@ mailer:
 # Database Configuration
 database:
   # Database connection URI
-  uri: {{ get_env(name="DATABASE_URL", default="postgres://loco:loco@localhost:5432/oblivio_loco_be_development") }}
+  #uri: {{ get_env(name="DATABASE_URL", default="postgres://loco:loco@192.168.160.2:5432/oblivio_loco_be_development") }}
+  uri: {{ get_env(name="DATABASE_URL", default="postgres://default:UI7GDx0XCtJq@ep-sparkling-shadow-a45jhttd-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require&currentSchema=public") }}
   # When enabled, the sql query will be logged.
   enable_logging: false
   # Set the timeout duration when acquiring a connection.
-  connect_timeout: 500
+  connect_timeout: 5000
   # Set the idle duration before closing a connection.
-  idle_timeout: 500
+  idle_timeout: 5000
   # Minimum number of connections for a pool.
   min_connections: 1
   # Maximum number of connections for a pool.
@@ -115,7 +116,7 @@ database:
 # Redis Configuration
 redis:
   # Redis connection URI
-  uri: {{ get_env(name="REDIS_URL", default="redis://127.0.0.1") }}
+  uri: {{ get_env(name="REDIS_URL", default="redis://default:CSTnQBb3X1c7uIzUB3lkVm5qaHTykoFx@redis-10212.c327.europe-west1-2.gce.redns.redis-cloud.com:10212") }}
   # Dangerously flush all data in Redis on startup. dangerous operation, make sure that you using this flag only on dev environments or test mode
   dangerously_flush: false
 
