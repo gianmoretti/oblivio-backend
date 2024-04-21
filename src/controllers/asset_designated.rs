@@ -1,10 +1,12 @@
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::unnecessary_struct_initialization)]
 #![allow(clippy::unused_async)]
+use axum::extract::Query;
 use loco_rs::prelude::*;
+use sea_orm::{ColumnTrait, QueryFilter};
 use serde::{Deserialize, Serialize};
 
-use crate::models::_entities::asset_designateds::{ActiveModel, Entity, Model};
+use crate::models::_entities::asset_designateds::{ActiveModel, Column, Entity, Model};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Params {
@@ -26,6 +28,38 @@ async fn load_item(ctx: &AppContext, id: i32) -> Result<Model> {
 
 pub async fn list(State(ctx): State<AppContext>) -> Result<Json<Vec<Model>>> {
     format::json(Entity::find().all(&ctx.db).await?)
+}
+
+#[derive(Deserialize)]
+pub struct QueryParams {
+    asset_id: Option<i32>,
+    designated_id: Option<i32>,
+}
+
+pub async fn query(
+    State(ctx): State<AppContext>,
+    Query(params): Query<QueryParams>,
+) -> Result<Json<Vec<Model>>> {
+    if params.asset_id.is_some() {
+        format::json(
+            Entity::find()
+                .filter(Column::AssetId.eq(params.asset_id))
+                .all(&ctx.db)
+                .await?,
+        )
+    } else if params.designated_id.is_some() {
+        format::json(
+            Entity::find()
+                .filter(Column::DesignatedId.eq(params.designated_id))
+                .all(&ctx.db)
+                .await?,
+        )
+    } else {
+        Err(Error::BadRequest(
+            "Please, use a valid request parameter choosing from asset_id and designated_id"
+                .to_string(),
+        ))
+    }
 }
 
 pub async fn add(State(ctx): State<AppContext>, Json(params): Json<Params>) -> Result<Json<Model>> {
@@ -63,6 +97,7 @@ pub fn routes() -> Routes {
         .prefix("asset_designateds")
         .add("/", get(list))
         .add("/", post(add))
+        .add("/query", get(query))
         .add("/:id", get(get_one))
         .add("/:id", delete(remove))
         .add("/:id", post(update))

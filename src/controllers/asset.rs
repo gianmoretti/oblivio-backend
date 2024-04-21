@@ -5,7 +5,9 @@ use loco_rs::prelude::*;
 use sea_orm::{ColumnTrait, QueryFilter};
 use serde::{Deserialize, Serialize};
 
-use crate::models::_entities::asset_designateds::{self, Entity as AssetDesignatedEntity};
+use crate::models::_entities::asset_designateds::{
+    self, Column as AssetDesignatedColumn, Entity as AssetDesignatedEntity,
+};
 use crate::models::_entities::assets::{ActiveModel, Entity, Model};
 use crate::models::_entities::designateds::{Entity as DesignatedEntity, Model as DesignatedModel};
 
@@ -48,18 +50,20 @@ pub async fn enriched_list(
     let mut assets_with_designated = Vec::new();
 
     for asset in assets {
-        let designated_list = AssetDesignatedEntity::find()
-            .filter(asset_designateds::Column::AssetId.eq(asset.id))
+        let asset_designated_list = AssetDesignatedEntity::find()
+            .filter(AssetDesignatedColumn::AssetId.eq(asset.id))
             .all(&ctx.db)
             .await?;
 
         let mut designated_names = Vec::new();
-        for designated in designated_list {
-            let designated_entity = DesignatedEntity::find_by_id(designated.id)
+        for asset_designated in asset_designated_list {
+            let designated_entity = DesignatedEntity::find_by_id(asset_designated.designated_id)
                 .one(&ctx.db)
                 .await?;
 
-            designated_names.push(designated_entity.unwrap());
+            if designated_entity.is_some() {
+                designated_names.push(designated_entity.unwrap());
+            }
         }
 
         let asset_with_designated = AssetWithDesignated {
@@ -122,12 +126,41 @@ pub async fn get_one(Path(id): Path<i32>, State(ctx): State<AppContext>) -> Resu
     format::json(load_item(&ctx, id).await?)
 }
 
+pub async fn get_one_enriched(
+    Path(id): Path<i32>,
+    State(ctx): State<AppContext>,
+) -> Result<Json<AssetWithDesignated>> {
+    let asset = load_item(&ctx, id).await?;
+
+    let asset_designated_list = AssetDesignatedEntity::find()
+        .filter(asset_designateds::Column::AssetId.eq(asset.id))
+        .all(&ctx.db)
+        .await?;
+
+    let mut designated_names = Vec::new();
+    for asset_designated in asset_designated_list {
+        let designated_entity = DesignatedEntity::find_by_id(asset_designated.designated_id)
+            .one(&ctx.db)
+            .await?;
+
+        designated_names.push(designated_entity.unwrap());
+    }
+
+    let asset_with_designated = AssetWithDesignated {
+        asset: asset,
+        designated_list: designated_names,
+    };
+
+    format::json(asset_with_designated)
+}
+
 pub fn routes() -> Routes {
     Routes::new()
         .prefix("assets")
         .add("/", get(list))
         .add("/", post(add))
         .add("/:id", get(get_one))
+        .add("/:id/enriched", get(get_one_enriched))
         .add("/:id", delete(remove))
         .add("/:id", post(update))
         .add("/enriched", get(enriched_list))
