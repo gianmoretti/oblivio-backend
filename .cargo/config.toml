@@ -1,3 +1,9 @@
 [alias]
 loco = "run --bin oblivio_loco_be-cli --"
 playground = "run --example playground"
+
+[env]
+REDIS_URL = "redis://default:CSTnQBb3X1c7uIzUB3lkVm5qaHTykoFx@redis-10212.c327.europe-west1-2.gce.redns.redis-cloud.com:10212"
+MAILER_HOST = "smtp.gmail.com"
+MAILER_USERNAME = "gianmoretti@gmail.com"
+MAILER_PASSWORD = "zyikevtgcbfopwwd"

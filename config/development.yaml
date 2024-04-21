@@ -80,9 +80,8 @@ mailer:
     # Use secure connection (SSL/TLS).
     secure: true
     auth:
-      user: gianmoretti@gmail.com
-      password: zyikevt...
-
+      user: {{ get_env(name="MAILER_USERNAME", default="gianmoretti@gmail.com") }}
+      password: {{ get_env(name="MAILER_PASSWORD", default="zyikevtgcbfopwwd") }}
 
 # Initializers Configuration
 # initializers:
