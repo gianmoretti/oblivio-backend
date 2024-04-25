@@ -1,12 +1,15 @@
+use object_store::gcp::GoogleCloudStorageBuilder;
 use std::path::Path;
 
 use async_trait::async_trait;
 use loco_rs::{
     app::{AppContext, Hooks},
     boot::{create_app, BootResult, StartMode},
+    config::Config,
     controller::AppRoutes,
     db::{self, truncate_table},
     environment::Environment,
+    storage::{self, drivers::object_store_adapter::ObjectStoreAdapter, Storage},
     task::Tasks,
     worker::{AppWorker, Processor},
     Result,
@@ -24,6 +27,23 @@ use crate::{
 pub struct App;
 #[async_trait]
 impl Hooks for App {
+    async fn storage(
+        _config: &Config,
+        _environment: &Environment,
+    ) -> Result<Option<storage::Storage>> {
+        return Ok(Some(Storage::single(Box::new(ObjectStoreAdapter::new(
+            Box::new(
+                GoogleCloudStorageBuilder::new()
+                    .with_bucket_name("oblivio-asset-documents")
+                    .with_service_account_path(
+                        std::env::var("GOOGLE_APPLICATION_CREDENTIALS").unwrap(),
+                    )
+                    .build()
+                    .unwrap(),
+            ),
+        )))));
+    }
+
     fn app_name() -> &'static str {
         env!("CARGO_CRATE_NAME")
     }

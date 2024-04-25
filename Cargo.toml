@@ -13,7 +13,7 @@ shuttle-runtime = { version = "0.43.0", default-features = false }
 shuttle-shared-db = { version = "0.43.0", features = ["postgres"] }
 
 
-loco-rs = { version = "0.3.2" }
+loco-rs = { version = "0.3.2", features= ["storage_gcp"] }
 migration = { path = "migration" }
 
 serde = { version = "1", features = ["derive"] }
@@ -31,11 +31,13 @@ sea-orm = { version = "1.0.0-rc.1", features = [
   "macros",
 ] }
 
-axum = "0.7.3"
+axum = { version = "0.7.3", features = ["multipart"] }
 include_dir = "0.7"
 uuid = { version = "1.6.0", features = ["v4"] }
 tracing-subscriber = { version = "0.3.17", features = ["env-filter", "json"] }
 shuttle-service = "=0.38.0"
+google-cloud-storage = "0.17.0"
+object_store = "0.9.1"
 
 [[bin]]
 name = "oblivio_loco_be-cli"
